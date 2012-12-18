@@ -11,8 +11,10 @@ use UNIVERSAL::require;
 
 {
     no strict "vars";
-    $VERSION = '0.04';
+    $VERSION = '0.05';
 }
+
+use constant USE_IO_STRING => $] <= 5.008;
 
 my %skip;
 
@@ -23,7 +25,7 @@ Config::Extend::MySQL - Extend your favourite .INI parser module to read MySQL c
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =head1 SYNOPSIS
 
@@ -123,7 +125,7 @@ sub new {
     my $content = __read_config(file => $file);
 
     my $fh = undef;
-    if ($] < 5.008) {
+    if (USE_IO_STRING) {
         require IO::String;
         $fh = IO::String->new(\$content);
     }
@@ -269,7 +271,7 @@ same ways, and have different behaviours:
 
 =item *
 
-C<Config::IniFiles> doesn't want to create 
+C<Config::IniFiles> doesn't want to create an object from an empty file.
 
 =item *
 
@@ -307,7 +309,7 @@ SE<eacute>bastien Aperghis-Tramoni, C<< <sebastien at aperghis.net> >>
 
 Please report any bugs or feature requests 
 to C<bug-config-extend-mysql at rt.cpan.org>, or through the web interface 
-at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Config-Extend-MySQL>.
+at L<http://rt.cpan.org/Dist/Display.html?Queue=Config-Extend-MySQL>.
 I will be notified, and then you'll automatically be notified of 
 progress on your bug as I make changes.
 
@@ -325,7 +327,7 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Config-Extend-MySQL>
+L<http://rt.cpan.org/Dist/Display.html?Queue=Config-Extend-MySQL>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
